@@ -31,19 +31,6 @@ class Movie(db.Model):
         }
 
 
-class MovieSchema(Schema):
-    id = fields.Int()
-    title = fields.Str()
-    description = fields.Str()
-    trailer = fields.Str()
-    year = fields.Int()
-    rating = fields.Int()
-    genre_id = fields.Int()
-    genre = fields.Str()
-    director_id = fields.Int()
-    director = fields.Str()
-
-
 class Director(db.Model):
     __tablename__ = 'director'
     id = db.Column(db.Integer, primary_key=True)
@@ -68,3 +55,26 @@ class Genre(db.Model):
             "id": self.id,
             "name": self.name
         }
+
+
+class DirectorSchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+
+
+class GenreSchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+
+
+class MovieSchema(Schema):
+    id = fields.Int()
+    title = fields.Str()
+    description = fields.Str()
+    trailer = fields.Str()
+    year = fields.Int()
+    rating = fields.Int()
+    genre_id = fields.Int()
+    genre = fields.Nested(GenreSchema(only=('name',)))
+    director_id = fields.Int()
+    director = fields.Nested(DirectorSchema(only=('name',)))
